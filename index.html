@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Una pregunta importante 💖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  body {
+    background: linear-gradient(135deg, #ffd6e8 0%, #ffe5d4 35%, #e8d6ff 70%, #ffd6f0 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    color: #6b3a5c;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Emoji rain background */
+  .emoji-rain {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .emoji-rain span {
+    position: absolute;
+    top: -50px;
+    font-size: 28px;
+    opacity: 0.85;
+    animation: fall linear infinite;
+    user-select: none;
+  }
+
+  @keyframes fall {
+    0% {
+      transform: translateY(-10vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% { opacity: 0.85; }
+    90% { opacity: 0.85; }
+    100% {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* Main content */
+  .container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .photo {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fff0f5, #ffe0ec);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.25),
+                0 0 0 8px rgba(255, 255, 255, 0.6);
+    margin-bottom: 30px;
+    animation: bob 3s ease-in-out infinite;
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+  }
+
+  h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(2.2rem, 7vw, 4rem);
+    color: #d6336c;
+    text-shadow: 2px 2px 0 #fff, 4px 4px 12px rgba(214, 51, 108, 0.2);
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: #8e4a6e;
+    margin-bottom: 40px;
+    font-weight: 700;
+    max-width: 500px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+  }
+
+  .btn {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    padding: 18px 42px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-yes {
+    background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+    color: white;
+    box-shadow: 0 8px 20px rgba(255, 107, 157, 0.45),
+                inset 0 -4px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-yes:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(255, 107, 157, 0.55),
+                inset 0 -4px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-yes:active {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .btn-no {
+    background: linear-gradient(135deg, #fff, #ffe5ef);
+    color: #d6336c;
+    box-shadow: 0 8px 20px rgba(214, 51, 108, 0.25),
+                inset 0 -4px 0 rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: visible;
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+                background 0.5s ease, color 0.5s ease;
+  }
+
+  /* When the No button is escaping, fix it to viewport */
+  .btn-no.escaping {
+    position: fixed;
+    transition: top 0.25s cubic-bezier(.34,1.56,.64,1),
+                left 0.25s cubic-bezier(.34,1.56,.64,1),
+                background 0.5s ease, color 0.5s ease;
+    z-index: 5;
+  }
+
+  .btn-no .face,
+  .btn-no .reveal {
+    display: inline-block;
+  }
+
+  .btn-no .reveal {
+    display: none;
+  }
+
+  /* Falling facade animation */
+  .btn-no.unmasking .face {
+    display: inline-block;
+    animation: fall-off 0.8s cubic-bezier(.55,.085,.68,.53) forwards;
+    transform-origin: center;
+  }
+
+  @keyframes fall-off {
+    0% {
+      transform: translateY(0) rotate(0);
+      opacity: 1;
+    }
+    20% {
+      transform: translateY(-8px) rotate(-8deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(140px) rotate(75deg);
+      opacity: 0;
+    }
+  }
+
+  .btn-no.unmasked {
+    background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+    color: white;
+    box-shadow: 0 8px 20px rgba(255, 107, 157, 0.45),
+                inset 0 -4px 0 rgba(0, 0, 0, 0.1);
+    animation: wiggle-reveal 0.5s ease;
+  }
+
+  @keyframes wiggle-reveal {
+    0%, 100% { transform: scale(1) rotate(0); }
+    25% { transform: scale(1.1) rotate(-3deg); }
+    75% { transform: scale(1.1) rotate(3deg); }
+  }
+
+  .btn-no.unmasked:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(255, 107, 157, 0.55),
+                inset 0 -4px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-no.unmasked .face { display: none; }
+  .btn-no.unmasked .reveal {
+    display: inline-block;
+    animation: pop-in 0.4s ease 0.1s backwards;
+  }
+
+  @keyframes pop-in {
+    0% { transform: scale(0.2); opacity: 0; }
+    60% { transform: scale(1.25); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  .counter {
+    margin-top: 30px;
+    font-size: 0.95rem;
+    color: #a85580;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 8px 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(6px);
+    min-height: 1.5em;
+  }
+
+  /* Celebration page */
+  .celebration {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #ffd6e8 0%, #ffe5d4 35%, #e8d6ff 70%, #ffd6f0 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    z-index: 10;
+  }
+
+  .celebration.show {
+    display: flex;
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .celebration .hearts {
+    font-size: clamp(4rem, 12vw, 8rem);
+    margin-bottom: 20px;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+
+  .celebration .hearts img {
+    width: clamp(180px, 30vw, 280px);
+    height: clamp(180px, 30vw, 280px);
+    object-fit: cover;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3),
+                0 0 0 6px rgba(255, 255, 255, 0.6);
+    display: block;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
+  .celebration h2 {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: #d6336c;
+    text-shadow: 2px 2px 0 #fff;
+    margin-bottom: 20px;
+    max-width: 800px;
+    line-height: 1.2;
+  }
+
+  .celebration p {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    color: #8e4a6e;
+    font-weight: 700;
+    max-width: 600px;
+    margin-bottom: 30px;
+  }
+
+  .celebration .emojis-line {
+    font-size: clamp(2rem, 6vw, 3rem);
+    letter-spacing: 0.2em;
+    animation: bob 2s ease-in-out infinite;
+  }
+
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  @media (max-width: 480px) {
+    .photo { width: 140px; height: 140px; font-size: 80px; }
+    .btn { font-size: 1.2rem; padding: 16px 32px; }
+    .buttons { gap: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="emoji-rain" id="emojiRain" aria-hidden="true"></div>
+
+<div class="container" id="mainPage">
+  <div class="photo"><img src="conejito.gif" alt="gif" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🌻',style:'font-size:100px'}))"></div>
+  <h1>¿Querés salir a comer conmigo?</h1>
+  <p class="subtitle">Te prometo que hay otras opciones además de pizza 🍕</p>
+
+  <div class="buttons">
+    <button class="btn btn-yes" id="btnYes">Sí 💖</button>
+    <button class="btn btn-no" id="btnNo"><span class="face">No 🥺</span><span class="reveal">Obvio que si 💝</span></button>
+  </div>
+
+  <div class="counter" id="counter">Intentos fallidos: 0</div>
+</div>
+
+<div class="celebration" id="celebration">
+  <div class="hearts"><img src="conejitos-comiendo.gif" alt="conejitos comiendo" onerror="this.replaceWith(document.createTextNode('🥰🎉'))"></div>
+  <h2>Sabía que ibas a decir que sí 🥰🎉</h2>
+  <p>Ponete bonita que tenemos una cita 💖✨</p>
+  <div class="emojis-line">🌸 🌷 💖 ✨ 🫶</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script>
+  // ---- Emoji rain ----
+  const rainContainer = document.getElementById('emojiRain');
+  const emojis = ['🌸', '🌷', '💖', '✨', '🫶', '🌺', '💗'];
+  const EMOJI_COUNT = 30;
+
+  for (let i = 0; i < EMOJI_COUNT; i++) {
+    const span = document.createElement('span');
+    span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    span.style.left = Math.random() * 100 + 'vw';
+    span.style.animationDuration = (6 + Math.random() * 8) + 's';
+    span.style.animationDelay = (Math.random() * 10) + 's';
+    span.style.fontSize = (18 + Math.random() * 24) + 'px';
+    rainContainer.appendChild(span);
+  }
+
+  // ---- Yes button: celebration + confetti ----
+  const btnYes = document.getElementById('btnYes');
+  const mainPage = document.getElementById('mainPage');
+  const celebration = document.getElementById('celebration');
+
+  function launchConfetti() {
+    const duration = 4000;
+    const end = Date.now() + duration;
+    const colors = ['#ff6b9d', '#ff8fab', '#d6336c', '#ffd6e8', '#e8d6ff', '#ffe5d4'];
+
+    (function frame() {
+      confetti({
+        particleCount: 4,
+        angle: 60,
+        spread: 60,
+        origin: { x: 0, y: 0.7 },
+        colors: colors,
+        scalar: 1.1
+      });
+      confetti({
+        particleCount: 4,
+        angle: 120,
+        spread: 60,
+        origin: { x: 1, y: 0.7 },
+        colors: colors,
+        scalar: 1.1
+      });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+
+    // Big burst from the middle
+    confetti({
+      particleCount: 150,
+      spread: 100,
+      origin: { y: 0.5 },
+      colors: colors,
+      shapes: ['circle', 'square']
+    });
+
+    // Heart-shaped emoji bursts every second
+    const heartInterval = setInterval(() => {
+      confetti({
+        particleCount: 30,
+        spread: 80,
+        origin: { x: Math.random(), y: Math.random() * 0.5 },
+        colors: colors,
+        scalar: 1.3
+      });
+    }, 800);
+    setTimeout(() => clearInterval(heartInterval), duration);
+  }
+
+  function goToCelebration() {
+    mainPage.style.display = 'none';
+    celebration.classList.add('show');
+    launchConfetti();
+  }
+
+  btnYes.addEventListener('click', goToCelebration);
+
+  // ---- No button: escape logic ----
+  const btnNo = document.getElementById('btnNo');
+  const counter = document.getElementById('counter');
+  let attempts = 0;
+  const ESCAPE_DISTANCE = 100;
+
+  // Small nudge — just enough to feel slippery, not impossible
+  const NUDGE_DISTANCE = 90;
+  let lastNudge = 0;
+
+  function moveButtonAwayFrom(px, py) {
+    if (!btnNo.classList.contains('escaping')) {
+      btnNo.classList.add('escaping');
+      // Anchor current position so the first nudge isn't a jump
+      const rect = btnNo.getBoundingClientRect();
+      btnNo.style.left = rect.left + 'px';
+      btnNo.style.top = rect.top + 'px';
+    }
+
+    const rect = btnNo.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    let dx = cx - px;
+    let dy = cy - py;
+    let dist = Math.hypot(dx, dy) || 1;
+    // Unit vector pointing away from pointer
+    dx /= dist;
+    dy /= dist;
+
+    // Add a tiny perpendicular wiggle so it feels organic
+    const wiggle = (Math.random() - 0.5) * 0.6;
+    const nx = dx + (-dy) * wiggle;
+    const ny = dy + ( dx) * wiggle;
+    const nlen = Math.hypot(nx, ny) || 1;
+
+    const curLeft = parseFloat(btnNo.style.left) || rect.left;
+    const curTop  = parseFloat(btnNo.style.top)  || rect.top;
+
+    let newLeft = curLeft + (nx / nlen) * NUDGE_DISTANCE;
+    let newTop  = curTop  + (ny / nlen) * NUDGE_DISTANCE;
+
+    // Keep inside the viewport
+    const margin = 10;
+    const maxLeft = window.innerWidth - rect.width - margin;
+    const maxTop = window.innerHeight - rect.height - margin;
+    newLeft = Math.max(margin, Math.min(newLeft, maxLeft));
+    newTop = Math.max(margin, Math.min(newTop, maxTop));
+
+    btnNo.style.left = newLeft + 'px';
+    btnNo.style.top = newTop + 'px';
+
+    attempts++;
+    counter.textContent = 'Intentos fallidos: ' + attempts;
+  }
+
+  // Detect mouse proximity (throttled)
+  document.addEventListener('mousemove', (e) => {
+    if (btnNo.classList.contains('unmasked') || btnNo.classList.contains('unmasking')) return;
+    const rect = btnNo.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const distance = Math.hypot(e.clientX - cx, e.clientY - cy);
+
+    if (distance < ESCAPE_DISTANCE) {
+      const now = Date.now();
+      if (now - lastNudge < 150) return; // avoid stampede of nudges
+      lastNudge = now;
+      moveButtonAwayFrom(e.clientX, e.clientY);
+    }
+  });
+
+  // Mobile: escape on touch (only while still pretending to be "No")
+  btnNo.addEventListener('touchstart', (e) => {
+    if (btnNo.classList.contains('unmasked') || btnNo.classList.contains('unmasking')) return;
+    e.preventDefault();
+    const t = e.touches[0];
+    moveButtonAwayFrom(t ? t.clientX : 0, t ? t.clientY : 0);
+  }, { passive: false });
+
+  // If they actually manage to click it — the facade falls and reveals a Sí
+  btnNo.addEventListener('click', () => {
+    if (btnNo.classList.contains('unmasked')) {
+      goToCelebration();
+      return;
+    }
+    if (btnNo.classList.contains('unmasking')) return;
+
+    btnNo.classList.add('unmasking');
+    setTimeout(() => {
+      btnNo.classList.remove('unmasking');
+      btnNo.classList.add('unmasked');
+    }, 800);
+  });
+
+  // Re-clamp position on window resize
+  window.addEventListener('resize', () => {
+    if (!btnNo.classList.contains('escaping')) return;
+    const rect = btnNo.getBoundingClientRect();
+    const maxLeft = window.innerWidth - rect.width - 10;
+    const maxTop = window.innerHeight - rect.height - 10;
+    const curLeft = parseFloat(btnNo.style.left) || 0;
+    const curTop = parseFloat(btnNo.style.top) || 0;
+    btnNo.style.left = Math.min(curLeft, maxLeft) + 'px';
+    btnNo.style.top = Math.min(curTop, maxTop) + 'px';
+  });
+</script>
+
+</body>
+</html>
