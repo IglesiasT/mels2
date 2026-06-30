@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Una pregunta importante 💖</title>
+<title>🚨 ALERTA 🚨</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Pacifico&family=Fredoka:wght@500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -16,13 +16,262 @@
     font-family: 'Nunito', sans-serif;
   }
 
-  body {
+  body { position: relative; min-height: 100vh; }
+
+  /* ============ ALERT PAGE ============ */
+  .alert-page {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    overflow: hidden;
+    background: #2b0000;
+    animation: sirenFlash 0.6s steps(2) infinite;
+    z-index: 1;
+  }
+
+  @keyframes sirenFlash {
+    0%   { background-color: #8c0000; }
+    50%  { background-color: #5c0a00; }
+    100% { background-color: #8c0000; }
+  }
+
+  .beacon {
+    position: absolute;
+    inset: -50%;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(255,210,0,0.35) 25deg, transparent 60deg, transparent 180deg, rgba(255,60,0,0.3) 210deg, transparent 250deg);
+    animation: spinBeacon 2.5s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes spinBeacon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .marquee {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    background: #ffcc00;
+    color: #2b0000;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    letter-spacing: 2px;
+    padding: 8px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    z-index: 3;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  }
+
+  .marquee span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scrollMarquee 14s linear infinite;
+  }
+
+  @keyframes scrollMarquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .alert-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 700px;
+  }
+
+  .siren-icon {
+    font-size: clamp(3.5rem, 10vw, 5.5rem);
+    animation: pulseSiren 0.6s ease-in-out infinite;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 20px rgba(255,200,0,0.7));
+  }
+
+  .siren-icon img {
+    width: clamp(130px, 26vw, 200px);
+    height: clamp(130px, 26vw, 200px);
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 0 0 5px #ffcc00,
+                0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  @keyframes pulseSiren {
+    0%, 100% { transform: scale(1) rotate(-4deg); }
+    50% { transform: scale(1.15) rotate(4deg); }
+  }
+
+  .alert-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 6vw, 3.2rem);
+    color: #fff200;
+    text-shadow: 0 0 12px rgba(255,210,0,0.8), 3px 3px 0 #5c0a00;
+    letter-spacing: 1px;
+    line-height: 1.25;
+    margin-bottom: 18px;
+    animation: blinkText 1s steps(1) infinite;
+  }
+
+  @keyframes blinkText {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.75; }
+  }
+
+  .alert-body {
+    background: rgba(0,0,0,0.35);
+    border: 2px dashed #ffcc00;
+    border-radius: 16px;
+    padding: 18px 22px;
+    margin-bottom: 30px;
+  }
+
+  .alert-body p {
+    color: #ffe9c2;
+    font-weight: 700;
+    font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .alert-body p:last-child { margin-bottom: 0; }
+
+  .alert-body .small {
+    font-size: 0.8em;
+    color: #ffcc99;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+  }
+
+  .btn {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    padding: 18px 38px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-yes {
+    background: linear-gradient(135deg, #ffe066, #ffc400);
+    color: #5c0a00;
+    box-shadow: 0 8px 20px rgba(255, 196, 0, 0.5),
+                inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .btn-yes:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(255, 196, 0, 0.6),
+                inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .btn-yes:active { transform: translateY(-2px) scale(1.02); }
+
+  .btn-no {
+    background: linear-gradient(135deg, #fff, #ffe5e5);
+    color: #8c0000;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35),
+                inset 0 -4px 0 rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: visible;
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+                background 0.5s ease, color 0.5s ease;
+  }
+
+  /* Cloned "Aceptar" buttons (hydra effect) */
+  .btn.clone {
+    position: fixed;
+    z-index: 6;
+    animation: pop-in 0.35s ease backwards;
+  }
+
+  .btn-no .face,
+  .btn-no .reveal { display: inline-block; }
+  .btn-no .reveal { display: none; }
+
+  .btn-no.unmasking .face {
+    display: inline-block;
+    animation: fall-off 0.8s cubic-bezier(.55,.085,.68,.53) forwards;
+    transform-origin: center;
+  }
+
+  @keyframes fall-off {
+    0% { transform: translateY(0) rotate(0); opacity: 1; }
+    20% { transform: translateY(-8px) rotate(-8deg); opacity: 1; }
+    100% { transform: translateY(140px) rotate(75deg); opacity: 0; }
+  }
+
+  .btn-no.unmasked {
+    background: linear-gradient(135deg, #ffe066, #ffc400);
+    color: #5c0a00;
+    box-shadow: 0 8px 20px rgba(255, 196, 0, 0.5),
+                inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+    animation: wiggle-reveal 0.5s ease;
+  }
+
+  @keyframes wiggle-reveal {
+    0%, 100% { transform: scale(1) rotate(0); }
+    25% { transform: scale(1.1) rotate(-3deg); }
+    75% { transform: scale(1.1) rotate(3deg); }
+  }
+
+  .btn-no.unmasked:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(255, 196, 0, 0.6),
+                inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .btn-no.unmasked .face { display: none; }
+  .btn-no.unmasked .reveal {
+    display: inline-block;
+    animation: pop-in 0.4s ease 0.1s backwards;
+  }
+
+  @keyframes pop-in {
+    0% { transform: scale(0.2); opacity: 0; }
+    60% { transform: scale(1.25); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  /* ============ PLAN / CUTE PAGE ============ */
+  .plan-page {
+    position: fixed;
+    inset: 0;
     background: linear-gradient(135deg, #ffd6e8 0%, #ffe5d4 35%, #e8d6ff 70%, #ffd6f0 100%);
     background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    color: #6b3a5c;
-    min-height: 100vh;
-    position: relative;
+    animation: gradientShift 12s ease infinite;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 30px 20px;
+    z-index: 10;
+    overflow-x: hidden;
+    overflow-y: auto;
+    justify-content: safe center;
   }
 
   @keyframes gradientShift {
@@ -31,7 +280,16 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* Emoji rain background */
+  .plan-page.show {
+    display: flex;
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
   .emoji-rain {
     position: fixed;
     top: 0; left: 0;
@@ -51,50 +309,34 @@
   }
 
   @keyframes fall {
-    0% {
-      transform: translateY(-10vh) rotate(0deg);
-      opacity: 0;
-    }
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
     10% { opacity: 0.85; }
     90% { opacity: 0.85; }
-    100% {
-      transform: translateY(110vh) rotate(360deg);
-      opacity: 0;
-    }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
   }
 
-  /* Main content */
-  .container {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-    text-align: center;
-  }
+  .plan-page > * { position: relative; z-index: 2; }
 
   .photo {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
+    width: min(440px, 86vw);
+    aspect-ratio: 1 / 1;
+    border-radius: 28px;
     background: linear-gradient(135deg, #fff0f5, #ffe0ec);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.25),
+    font-size: 120px;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3),
                 0 0 0 8px rgba(255, 255, 255, 0.6);
-    margin-bottom: 30px;
+    margin-bottom: 22px;
     animation: bob 3s ease-in-out infinite;
   }
 
   .photo img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
   }
 
@@ -103,270 +345,161 @@
     50% { transform: translateY(-10px) rotate(2deg); }
   }
 
-  h1 {
-    font-family: 'Pacifico', cursive;
-    font-size: clamp(2.2rem, 7vw, 4rem);
-    color: #d6336c;
-    text-shadow: 2px 2px 0 #fff, 4px 4px 12px rgba(214, 51, 108, 0.2);
-    margin-bottom: 15px;
-    line-height: 1.2;
-  }
-
-  .subtitle {
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
-    color: #8e4a6e;
-    margin-bottom: 40px;
+  .plan-page h2 {
+    font-family: 'Fredoka', sans-serif;
     font-weight: 700;
-    max-width: 500px;
-  }
-
-  .buttons {
-    display: flex;
-    gap: 25px;
-    flex-wrap: wrap;
-    justify-content: center;
-    position: relative;
-  }
-
-  .btn {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 1.4rem;
-    padding: 18px 42px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .btn-yes {
-    background: linear-gradient(135deg, #ff6b9d, #ff8fab);
-    color: white;
-    box-shadow: 0 8px 20px rgba(255, 107, 157, 0.45),
-                inset 0 -4px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .btn-yes:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 12px 28px rgba(255, 107, 157, 0.55),
-                inset 0 -4px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .btn-yes:active {
-    transform: translateY(-2px) scale(1.02);
-  }
-
-  .btn-no {
-    background: linear-gradient(135deg, #fff, #ffe5ef);
-    color: #d6336c;
-    box-shadow: 0 8px 20px rgba(214, 51, 108, 0.25),
-                inset 0 -4px 0 rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: visible;
-    transition: transform 0.2s ease, box-shadow 0.2s ease,
-                background 0.5s ease, color 0.5s ease;
-  }
-
-  /* When the No button is escaping, fix it to viewport */
-  .btn-no.escaping {
-    position: fixed;
-    transition: top 0.25s cubic-bezier(.34,1.56,.64,1),
-                left 0.25s cubic-bezier(.34,1.56,.64,1),
-                background 0.5s ease, color 0.5s ease;
-    z-index: 5;
-  }
-
-  .btn-no .face,
-  .btn-no .reveal {
-    display: inline-block;
-  }
-
-  .btn-no .reveal {
-    display: none;
-  }
-
-  /* Falling facade animation */
-  .btn-no.unmasking .face {
-    display: inline-block;
-    animation: fall-off 0.8s cubic-bezier(.55,.085,.68,.53) forwards;
-    transform-origin: center;
-  }
-
-  @keyframes fall-off {
-    0% {
-      transform: translateY(0) rotate(0);
-      opacity: 1;
-    }
-    20% {
-      transform: translateY(-8px) rotate(-8deg);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(140px) rotate(75deg);
-      opacity: 0;
-    }
-  }
-
-  .btn-no.unmasked {
-    background: linear-gradient(135deg, #ff6b9d, #ff8fab);
-    color: white;
-    box-shadow: 0 8px 20px rgba(255, 107, 157, 0.45),
-                inset 0 -4px 0 rgba(0, 0, 0, 0.1);
-    animation: wiggle-reveal 0.5s ease;
-  }
-
-  @keyframes wiggle-reveal {
-    0%, 100% { transform: scale(1) rotate(0); }
-    25% { transform: scale(1.1) rotate(-3deg); }
-    75% { transform: scale(1.1) rotate(3deg); }
-  }
-
-  .btn-no.unmasked:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 12px 28px rgba(255, 107, 157, 0.55),
-                inset 0 -4px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .btn-no.unmasked .face { display: none; }
-  .btn-no.unmasked .reveal {
-    display: inline-block;
-    animation: pop-in 0.4s ease 0.1s backwards;
-  }
-
-  @keyframes pop-in {
-    0% { transform: scale(0.2); opacity: 0; }
-    60% { transform: scale(1.25); opacity: 1; }
-    100% { transform: scale(1); }
-  }
-
-  .counter {
-    margin-top: 30px;
-    font-size: 0.95rem;
-    color: #a85580;
-    font-weight: 700;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 8px 20px;
-    border-radius: 30px;
-    backdrop-filter: blur(6px);
-    min-height: 1.5em;
-  }
-
-  /* Celebration page */
-  .celebration {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(135deg, #ffd6e8 0%, #ffe5d4 35%, #e8d6ff 70%, #ffd6f0 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 10s ease infinite;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    z-index: 10;
-  }
-
-  .celebration.show {
-    display: flex;
-    animation: fadeIn 0.6s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-  }
-
-  .celebration .hearts {
-    font-size: clamp(4rem, 12vw, 8rem);
-    margin-bottom: 20px;
-    animation: pulse 1.2s ease-in-out infinite;
-  }
-
-  .celebration .hearts img {
-    width: clamp(180px, 30vw, 280px);
-    height: clamp(180px, 30vw, 280px);
-    object-fit: cover;
-    border-radius: 30px;
-    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3),
-                0 0 0 6px rgba(255, 255, 255, 0.6);
-    display: block;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-  }
-
-  .celebration h2 {
-    font-family: 'Pacifico', cursive;
-    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-size: clamp(1.9rem, 6vw, 3.2rem);
     color: #d6336c;
     text-shadow: 2px 2px 0 #fff;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
     max-width: 800px;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
-  .celebration p {
-    font-size: clamp(1.1rem, 3vw, 1.5rem);
+  .plan-card {
+    background: rgba(255,255,255,0.55);
+    border-radius: 22px;
+    padding: 20px 26px;
+    margin: 10px 0 22px;
+    max-width: 560px;
+    box-shadow: 0 8px 24px rgba(214, 51, 108, 0.18);
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    text-align: left;
+  }
+
+  .plan-card .poster {
+    width: 130px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    display: block;
+    box-shadow: 0 8px 20px rgba(214, 51, 108, 0.35),
+                0 0 0 4px rgba(255, 255, 255, 0.7);
+  }
+
+  .plan-card p {
+    font-size: clamp(1.05rem, 2.8vw, 1.3rem);
     color: #8e4a6e;
     font-weight: 700;
-    max-width: 600px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
   }
 
-  .celebration .emojis-line {
+  .plan-card p:last-child { margin-bottom: 0; }
+
+  .plan-card .movie {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    color: #d6336c;
+    font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+  }
+
+  .plan-card .joke {
+    font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+    color: #a85580;
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  .emojis-line {
     font-size: clamp(2rem, 6vw, 3rem);
     letter-spacing: 0.2em;
     animation: bob 2s ease-in-out infinite;
   }
 
-  #confetti-canvas {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 20;
-  }
-
   @media (max-width: 480px) {
-    .photo { width: 140px; height: 140px; font-size: 80px; }
-    .btn { font-size: 1.2rem; padding: 16px 32px; }
-    .buttons { gap: 18px; }
+    .photo { width: min(340px, 86vw); font-size: 80px; }
+    .btn { font-size: 1.15rem; padding: 15px 28px; }
+    .buttons { gap: 16px; }
+    .alert-body { padding: 14px 16px; }
+    .plan-card {
+      flex-direction: column;
+      text-align: center;
+      gap: 14px;
+      padding: 18px 20px;
+    }
+    .plan-card .poster { width: 150px; }
   }
 </style>
 </head>
 <body>
 
-<div class="emoji-rain" id="emojiRain" aria-hidden="true"></div>
-
-<div class="container" id="mainPage">
-  <div class="photo"><img src="conejito.gif" alt="gif" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🌻',style:'font-size:100px'}))"></div>
-  <h1>¿Querés salir a comer conmigo?</h1>
-  <p class="subtitle">Te prometo que hay otras opciones además de pizza 🍕</p>
-
-  <div class="buttons">
-    <button class="btn btn-yes" id="btnYes">Sí 💖</button>
-    <button class="btn btn-no" id="btnNo"><span class="face">No 🥺</span><span class="reveal">Obvio que si 💝</span></button>
+<!-- ============ ALERT PAGE ============ -->
+<div class="alert-page" id="alertPage">
+  <div class="beacon" aria-hidden="true"></div>
+  <div class="marquee" aria-hidden="true">
+    <span>🚨 ALERTA 🚨 ALERTA 🚨 ALERTA 🚨 ALERTA 🚨 ALERTA 🚨 ALERTA 🚨 ALERTA 🚨</span>
   </div>
 
-  <div class="counter" id="counter">Intentos fallidos: 0</div>
+  <audio id="alarm" src="danger-alarm-sound-effect-meme.mp3" loop preload="auto"></audio>
+
+  <div class="alert-content">
+    <div class="siren-icon"><img src="bunny-hopping.gif" alt="alerta conejo" onerror="this.replaceWith(document.createTextNode('🚨'))"></div>
+    <h1 class="alert-title">URGENTE</h1>
+
+    <div class="alert-body">
+      <p><strong>TENEMOS UNA CITA!!</strong></p>
+      <p class="small">Esta vez sos libre de elegir la opción que quieras</p>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-yes" id="btnYes">Aceptar 🫡</button>
+      <button class="btn btn-no" id="btnNo"><span class="face">No quiero</span><span class="reveal">Que pena aceptas igual</span></button>
+    </div>
+  </div>
 </div>
 
-<div class="celebration" id="celebration">
-  <div class="hearts"><img src="conejitos-comiendo.gif" alt="conejitos comiendo" onerror="this.replaceWith(document.createTextNode('🥰🎉'))"></div>
-  <h2>Sabía que ibas a decir que sí 🥰🎉</h2>
-  <p>Ponete bonita que tenemos una cita 💖✨</p>
-  <div class="emojis-line">🌸 🌷 💖 ✨ 🫶</div>
+<!-- ============ PLAN / CUTE PAGE ============ -->
+<div class="plan-page" id="planPage">
+  <div class="emoji-rain" id="emojiRain" aria-hidden="true"></div>
+
+  <div class="photo"><img src="conejito-pochoclos.gif" alt="gif" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🍿',style:'font-size:90px'}))"></div>
+
+  <h2>Vamos al cine a ver</h2>
+
+  <div class="plan-card">
+    <img class="poster" src="pelicula.jpg" alt="Obsession" onerror="this.style.display='none'">
+    <div class="plan-info">
+      <p class="movie">Obsession</p>
+      <p class="joke">Si te portás bien te hago una pizza 🍕 (sin pera)</p>
+    </div>
+  </div>
+
+  <div class="emojis-line">✨ 🍿 🍿 🍿 ✨</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <script>
-  // ---- Emoji rain ----
+  // ============ Alarm sound ============
+  const alarm = document.getElementById('alarm');
+  const soundHint = document.getElementById('soundHint');
+  alarm.volume = 0.6;
+  let alarmStopped = false;
+
+  function playAlarm() {
+    if (alarmStopped) return;
+    // browser may block autoplay until a real gesture (click/touch/key)
+    alarm.play().then(() => {
+      if (soundHint) soundHint.style.display = 'none';
+    }).catch(() => {});
+  }
+
+  function stopAlarm() {
+    alarmStopped = true;
+    alarm.pause();
+    alarm.currentTime = 0;
+    if (soundHint) soundHint.style.display = 'none';
+  }
+
+  // Try immediately; if blocked, start on the first interaction anywhere
+  playAlarm();
+  ['pointerdown', 'touchstart', 'keydown', 'click'].forEach(evt => {
+    document.addEventListener(evt, playAlarm, { once: true });
+  });
+
+  // ============ Emoji rain (plan page) ============
   const rainContainer = document.getElementById('emojiRain');
-  const emojis = ['🌸', '🌷', '💖', '✨', '🫶', '🌺', '💗'];
+  const emojis = ['🍕', '🍿', '🎬', '🎟️', '💖', '✨', '🫶'];
   const EMOJI_COUNT = 30;
 
   for (let i = 0; i < EMOJI_COUNT; i++) {
@@ -379,10 +512,10 @@
     rainContainer.appendChild(span);
   }
 
-  // ---- Yes button: celebration + confetti ----
+  // ============ Aceptar -> plan page + confetti ============
   const btnYes = document.getElementById('btnYes');
-  const mainPage = document.getElementById('mainPage');
-  const celebration = document.getElementById('celebration');
+  const alertPage = document.getElementById('alertPage');
+  const planPage = document.getElementById('planPage');
 
   function launchConfetti() {
     const duration = 4000;
@@ -390,160 +523,54 @@
     const colors = ['#ff6b9d', '#ff8fab', '#d6336c', '#ffd6e8', '#e8d6ff', '#ffe5d4'];
 
     (function frame() {
-      confetti({
-        particleCount: 4,
-        angle: 60,
-        spread: 60,
-        origin: { x: 0, y: 0.7 },
-        colors: colors,
-        scalar: 1.1
-      });
-      confetti({
-        particleCount: 4,
-        angle: 120,
-        spread: 60,
-        origin: { x: 1, y: 0.7 },
-        colors: colors,
-        scalar: 1.1
-      });
+      confetti({ particleCount: 4, angle: 60, spread: 60, origin: { x: 0, y: 0.7 }, colors, scalar: 1.1 });
+      confetti({ particleCount: 4, angle: 120, spread: 60, origin: { x: 1, y: 0.7 }, colors, scalar: 1.1 });
       if (Date.now() < end) requestAnimationFrame(frame);
     })();
 
-    // Big burst from the middle
-    confetti({
-      particleCount: 150,
-      spread: 100,
-      origin: { y: 0.5 },
-      colors: colors,
-      shapes: ['circle', 'square']
-    });
+    confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 }, colors, shapes: ['circle', 'square'] });
 
-    // Heart-shaped emoji bursts every second
     const heartInterval = setInterval(() => {
-      confetti({
-        particleCount: 30,
-        spread: 80,
-        origin: { x: Math.random(), y: Math.random() * 0.5 },
-        colors: colors,
-        scalar: 1.3
-      });
+      confetti({ particleCount: 30, spread: 80, origin: { x: Math.random(), y: Math.random() * 0.5 }, colors, scalar: 1.3 });
     }, 800);
     setTimeout(() => clearInterval(heartInterval), duration);
   }
 
-  function goToCelebration() {
-    mainPage.style.display = 'none';
-    celebration.classList.add('show');
+  function goToPlan() {
+    stopAlarm();
+    alertPage.style.display = 'none';
+    planPage.classList.add('show');
     launchConfetti();
   }
 
-  btnYes.addEventListener('click', goToCelebration);
+  btnYes.addEventListener('click', goToPlan);
 
-  // ---- No button: escape logic ----
+  // ============ Hydra: clicking "No quiero" spawns more "Aceptar" buttons ============
   const btnNo = document.getElementById('btnNo');
-  const counter = document.getElementById('counter');
-  let attempts = 0;
-  const ESCAPE_DISTANCE = 100;
+  const MAX_CLONES = 40;
+  let cloneCount = 0;
 
-  // Small nudge — just enough to feel slippery, not impossible
-  const NUDGE_DISTANCE = 90;
-  let lastNudge = 0;
+  function spawnAccepts(n) {
+    for (let i = 0; i < n && cloneCount < MAX_CLONES; i++) {
+      cloneCount++;
+      const b = document.createElement('button');
+      b.className = 'btn btn-yes clone';
+      b.textContent = 'Aceptar 🫡';
 
-  function moveButtonAwayFrom(px, py) {
-    if (!btnNo.classList.contains('escaping')) {
-      btnNo.classList.add('escaping');
-      // Anchor current position so the first nudge isn't a jump
-      const rect = btnNo.getBoundingClientRect();
-      btnNo.style.left = rect.left + 'px';
-      btnNo.style.top = rect.top + 'px';
+      const margin = 12;
+      const w = 180, h = 64; // approx button footprint
+      const left = margin + Math.random() * (window.innerWidth - w - margin * 2);
+      const top = margin + Math.random() * (window.innerHeight - h - margin * 2);
+      b.style.left = Math.max(margin, left) + 'px';
+      b.style.top = Math.max(margin, top) + 'px';
+
+      b.addEventListener('click', goToPlan);
+      alertPage.appendChild(b);
     }
-
-    const rect = btnNo.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-
-    let dx = cx - px;
-    let dy = cy - py;
-    let dist = Math.hypot(dx, dy) || 1;
-    // Unit vector pointing away from pointer
-    dx /= dist;
-    dy /= dist;
-
-    // Add a tiny perpendicular wiggle so it feels organic
-    const wiggle = (Math.random() - 0.5) * 0.6;
-    const nx = dx + (-dy) * wiggle;
-    const ny = dy + ( dx) * wiggle;
-    const nlen = Math.hypot(nx, ny) || 1;
-
-    const curLeft = parseFloat(btnNo.style.left) || rect.left;
-    const curTop  = parseFloat(btnNo.style.top)  || rect.top;
-
-    let newLeft = curLeft + (nx / nlen) * NUDGE_DISTANCE;
-    let newTop  = curTop  + (ny / nlen) * NUDGE_DISTANCE;
-
-    // Keep inside the viewport
-    const margin = 10;
-    const maxLeft = window.innerWidth - rect.width - margin;
-    const maxTop = window.innerHeight - rect.height - margin;
-    newLeft = Math.max(margin, Math.min(newLeft, maxLeft));
-    newTop = Math.max(margin, Math.min(newTop, maxTop));
-
-    btnNo.style.left = newLeft + 'px';
-    btnNo.style.top = newTop + 'px';
-
-    attempts++;
-    counter.textContent = 'Intentos fallidos: ' + attempts;
   }
 
-  // Detect mouse proximity (throttled)
-  document.addEventListener('mousemove', (e) => {
-    if (btnNo.classList.contains('unmasked') || btnNo.classList.contains('unmasking')) return;
-    const rect = btnNo.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const distance = Math.hypot(e.clientX - cx, e.clientY - cy);
-
-    if (distance < ESCAPE_DISTANCE) {
-      const now = Date.now();
-      if (now - lastNudge < 150) return; // avoid stampede of nudges
-      lastNudge = now;
-      moveButtonAwayFrom(e.clientX, e.clientY);
-    }
-  });
-
-  // Mobile: escape on touch (only while still pretending to be "No")
-  btnNo.addEventListener('touchstart', (e) => {
-    if (btnNo.classList.contains('unmasked') || btnNo.classList.contains('unmasking')) return;
-    e.preventDefault();
-    const t = e.touches[0];
-    moveButtonAwayFrom(t ? t.clientX : 0, t ? t.clientY : 0);
-  }, { passive: false });
-
-  // If they actually manage to click it — the facade falls and reveals a Sí
   btnNo.addEventListener('click', () => {
-    if (btnNo.classList.contains('unmasked')) {
-      goToCelebration();
-      return;
-    }
-    if (btnNo.classList.contains('unmasking')) return;
-
-    btnNo.classList.add('unmasking');
-    setTimeout(() => {
-      btnNo.classList.remove('unmasking');
-      btnNo.classList.add('unmasked');
-    }, 800);
-  });
-
-  // Re-clamp position on window resize
-  window.addEventListener('resize', () => {
-    if (!btnNo.classList.contains('escaping')) return;
-    const rect = btnNo.getBoundingClientRect();
-    const maxLeft = window.innerWidth - rect.width - 10;
-    const maxTop = window.innerHeight - rect.height - 10;
-    const curLeft = parseFloat(btnNo.style.left) || 0;
-    const curTop = parseFloat(btnNo.style.top) || 0;
-    btnNo.style.left = Math.min(curLeft, maxLeft) + 'px';
-    btnNo.style.top = Math.min(curTop, maxTop) + 'px';
+    spawnAccepts(3);
   });
 </script>
 
